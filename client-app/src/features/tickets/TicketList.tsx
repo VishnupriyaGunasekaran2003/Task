@@ -1,15 +1,11 @@
 import { Button, Header, Icon, Item, Segment } from "semantic-ui-react";
-import { Ticket } from "../../app/models/Ticket";
 import { SyntheticEvent, useState } from "react";
+import { useStore } from "../../app/stores/store";
+import { observer } from "mobx-react-lite";
 
-interface Props {
-    tickets: Ticket[];
-    selectTicket: (id: string) => void;
-    deleteTicket: (id: string) => void;
-    submitting: boolean;
-}
-
-export default function TicketList({tickets, selectTicket, deleteTicket, submitting}: Props) {
+export default observer(function TicketList() {
+    const {ticketStore} = useStore();
+    const {deleteTicket, ticketsByDate, loading } = ticketStore;
     const [target, setTarget] = useState('');
 
     function handleDeleteTicket(e: SyntheticEvent<HTMLButtonElement>,id: string) {
@@ -20,7 +16,7 @@ export default function TicketList({tickets, selectTicket, deleteTicket, submitt
     return (
         <Segment>
             <Item.Group divided>
-                    {tickets.map(ticket => (
+                    {ticketsByDate.map(ticket => (
                         <Item key={ticket.id}>
                             <Item.Content>
                                 <Item.Header as='a' style={{ textDecoration: "none" }} >
@@ -36,10 +32,10 @@ export default function TicketList({tickets, selectTicket, deleteTicket, submitt
                                         color="teal"
                                         floated="right"
                                         content='View Details'
-                                        onClick={() => selectTicket(ticket.id)}
+                                        onClick={() => ticketStore.selectTicket(ticket.id)}
                                     />
                                      <Button
-                                        loading = {submitting && target === ticket.id} 
+                                        loading = {loading && target === ticket.id} 
                                         name={ticket.id}
                                         color="red"
                                         floated="right"
@@ -53,4 +49,4 @@ export default function TicketList({tickets, selectTicket, deleteTicket, submitt
             </Item.Group>
         </Segment>
     )
-}
+})

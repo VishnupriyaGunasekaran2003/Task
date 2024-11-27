@@ -1,15 +1,12 @@
 import { ChangeEvent, useState } from "react";
 import { Button, Form, Segment } from "semantic-ui-react";
-import { Ticket } from "../../../app/models/Ticket";
+import { useStore } from "../../../app/stores/store";
+import { observer } from "mobx-react-lite";
 
-interface Props {
-    ticket: Ticket | undefined;
-    closeForm: () => void;
-    createOrEdit: (ticket: Ticket) => void;
-    submitting: boolean;
-}
+export default observer(function TickekForm() {
+    const {ticketStore} = useStore();
+    const {closeForm, selectedTicket, loading, createTicket, updateTicket} = ticketStore;
 
-export default function TickekForm({ticket: selectedTicket, closeForm, createOrEdit, submitting}: Props) {
     const initialState = selectedTicket ?? {
         id: '',
         startStation: '',
@@ -30,7 +27,7 @@ export default function TickekForm({ticket: selectedTicket, closeForm, createOrE
     }
 
     function handleSubmit() {
-        createOrEdit(ticket);
+        ticket.id ? updateTicket(ticket) : createTicket(ticket);
     }
 
 
@@ -44,9 +41,9 @@ export default function TickekForm({ticket: selectedTicket, closeForm, createOrE
                 <Form.Input placeholder="Fare" name="fare" value={ticket.fare} onChange={handleInputChange} />
                 <Form.Input placeholder="Payment Status" name="paymentStatus" value={ticket.paymentStatus} onChange={handleInputChange} />
                 <Form.Input placeholder="Ticket QR" name="ticketQr" value={ticket.ticketQr} onChange={handleInputChange} />
-                <Button floated="right" loading={submitting} positive type="submit" content="Submit" />
+                <Button floated="right" loading={loading} positive type="submit" content="Submit" />
                 <Button floated="right" onClick={closeForm} type="button" content="Canel" />
             </Form>
         </Segment>
     )
-}
+})

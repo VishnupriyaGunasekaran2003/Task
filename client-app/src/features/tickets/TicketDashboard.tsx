@@ -1,49 +1,25 @@
 import { Grid } from "semantic-ui-react";
-import { Ticket } from "../../app/models/Ticket";
 import TicketList from "./TicketList";
 import TicketDetails from "../details/TicketDetails";
 import TickekForm from "./form/TicketForm";
+import { useStore } from "../../app/stores/store";
+import { observer } from "mobx-react-lite";
 
-interface Props {
-    tickets: Ticket[];
-    selectedTicket: Ticket | undefined;
-    selectTicket: (id : string) => void;
-    cancelSelectTicket: () => void;
-    editMode: boolean;
-    openForm: (id: string) => void;
-    closeForm: () => void;
-    createOrEdit: (tickket: Ticket) => void;
-    deleteTicket: (id: string) => void;
-    submitting: boolean;
-}
-
-export default function TicketDashboard({tickets, selectedTicket, submitting,
-    selectTicket, cancelSelectTicket, editMode, openForm, closeForm, createOrEdit, deleteTicket}: Props) {
+export default observer(function TicketDashboard() {
+    const {ticketStore} = useStore();
+    const {selectedTicket, editMode} = ticketStore;
+   
     return (
         <Grid>
             <Grid.Column width={10}>
-                <TicketList 
-                    tickets={tickets} 
-                    selectTicket={selectTicket}
-                    deleteTicket={deleteTicket}
-                    submitting={submitting}
-                />
+                <TicketList />
             </Grid.Column>
             <Grid.Column width={6}>
                 {selectedTicket && !editMode &&
-                    <TicketDetails 
-                        ticket={selectedTicket}
-                        cancelSelectTicket={cancelSelectTicket}
-                        openForm={openForm}
-                />}
+                    <TicketDetails />}
                 {editMode &&
-                    <TickekForm 
-                        ticket={selectedTicket} 
-                        closeForm={closeForm} 
-                        createOrEdit={createOrEdit}
-                        submitting={submitting}
-                    />}
+                    <TickekForm />}
             </Grid.Column>
         </Grid>
     )
-}
+})

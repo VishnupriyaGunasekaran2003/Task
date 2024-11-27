@@ -1,13 +1,13 @@
 import { Button, Card, Image } from "semantic-ui-react";
-import { Ticket } from "../../app/models/Ticket";
+import { useStore } from "../../app/stores/store";
+import LoadingComponent from "../../app/layout/LoadingComponent";
 
-interface Props {
-    ticket: Ticket;
-    cancelSelectTicket: () => void;
-    openForm: (id: string) => void; 
-}
+export default function TicketDetails() {
+    const {ticketStore} = useStore();
+    const {selectedTicket: ticket, openForm, cancelSelectTicket} = ticketStore;
 
-export default function TicketDetails({ticket, cancelSelectTicket, openForm,}: Props) {
+    if(!ticket) return <LoadingComponent />
+
     return (
         <Card fluid>
             <Image src="/assets/sqr.png" alt="qr" />
