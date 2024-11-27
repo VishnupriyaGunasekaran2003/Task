@@ -1,13 +1,22 @@
 import { Button, Header, Icon, Item, Segment } from "semantic-ui-react";
 import { Ticket } from "../../app/models/Ticket";
+import { SyntheticEvent, useState } from "react";
 
 interface Props {
     tickets: Ticket[];
     selectTicket: (id: string) => void;
     deleteTicket: (id: string) => void;
+    submitting: boolean;
 }
 
-export default function TicketList({tickets, selectTicket, deleteTicket}: Props) {
+export default function TicketList({tickets, selectTicket, deleteTicket, submitting}: Props) {
+    const [target, setTarget] = useState('');
+
+    function handleDeleteTicket(e: SyntheticEvent<HTMLButtonElement>,id: string) {
+        setTarget(e.currentTarget.name);
+        deleteTicket(id);
+    }
+
     return (
         <Segment>
             <Item.Group divided>
@@ -29,11 +38,13 @@ export default function TicketList({tickets, selectTicket, deleteTicket}: Props)
                                         content='View Details'
                                         onClick={() => selectTicket(ticket.id)}
                                     />
-                                     <Button 
+                                     <Button
+                                        loading = {submitting && target === ticket.id} 
+                                        name={ticket.id}
                                         color="red"
                                         floated="right"
                                         content='Delete'
-                                        onClick={() => deleteTicket(ticket.id)}
+                                        onClick={(e) => handleDeleteTicket(e, ticket.id)}
                                     />
                                 </Item.Extra>
                             </Item.Content>

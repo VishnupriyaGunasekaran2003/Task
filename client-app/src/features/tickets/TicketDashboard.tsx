@@ -14,9 +14,10 @@ interface Props {
     closeForm: () => void;
     createOrEdit: (tickket: Ticket) => void;
     deleteTicket: (id: string) => void;
+    submitting: boolean;
 }
 
-export default function TicketDashboard({tickets, selectedTicket, 
+export default function TicketDashboard({tickets, selectedTicket, submitting,
     selectTicket, cancelSelectTicket, editMode, openForm, closeForm, createOrEdit, deleteTicket}: Props) {
     return (
         <Grid>
@@ -25,6 +26,7 @@ export default function TicketDashboard({tickets, selectedTicket,
                     tickets={tickets} 
                     selectTicket={selectTicket}
                     deleteTicket={deleteTicket}
+                    submitting={submitting}
                 />
             </Grid.Column>
             <Grid.Column width={6}>
@@ -36,7 +38,11 @@ export default function TicketDashboard({tickets, selectedTicket,
                 />}
                 {editMode &&
                     <TickekForm 
-                        ticket={selectedTicket} closeForm={closeForm} createOrEdit={createOrEdit}/>}
+                        ticket={selectedTicket} 
+                        closeForm={closeForm} 
+                        createOrEdit={createOrEdit}
+                        submitting={submitting}
+                    />}
             </Grid.Column>
         </Grid>
     )
