@@ -1,13 +1,19 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Button, Form, Segment } from "semantic-ui-react";
 import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import {v4 as uuid} from 'uuid';
+import LoadingComponent from "../../../app/layout/LoadingComponent";
 
 export default observer(function TickekForm() {
     const {ticketStore} = useStore();
-    const {closeForm, selectedTicket, loading, createTicket, updateTicket} = ticketStore;
+    const { selectedTicket, loading, createTicket, updateTicket, 
+        loadTicket, loadingInitial} = ticketStore;
+    const {id} = useParams();
+    const navigate = useNavigate();
 
-    const initialState = selectedTicket ?? {
+    const [ticket, setTicket] = useState({
         id: '',
         startStation: '',
         destination: '',
@@ -16,9 +22,11 @@ export default observer(function TickekForm() {
         fare: 0.0,
         paymentStatus: '',
         ticketQr: ''
-    }
+    });
 
-    const[ticket, setTicket] = useState(initialState);
+    useEffect(() => {
+        if(id) loadTicket(id).then(ticket => setTicket(ticket!));
+    },[id, loadTicket]);
 
     function handleInputChange(event: ChangeEvent<HTMLInputElement>) 
     {
@@ -27,9 +35,15 @@ export default observer(function TickekForm() {
     }
 
     function handleSubmit() {
-        ticket.id ? updateTicket(ticket) : createTicket(ticket);
+        if (!ticket.id) {
+            ticket.id = uuid();
+            createTicket(ticket).then(() => navigate(`/tickets/${ticket.id}`))
+        } else {
+            updateTicket(ticket).then(() => navigate(`/tickets/${ticket.id}`))
+        }
     }
 
+    if (loadingInitial) return <LoadingComponent content="Loading Ticket..." />
 
     return (
         <Segment clearing>
@@ -42,7 +56,7 @@ export default observer(function TickekForm() {
                 <Form.Input placeholder="Payment Status" name="paymentStatus" value={ticket.paymentStatus} onChange={handleInputChange} />
                 <Form.Input placeholder="Ticket QR" name="ticketQr" value={ticket.ticketQr} onChange={handleInputChange} />
                 <Button floated="right" loading={loading} positive type="submit" content="Submit" />
-                <Button floated="right" onClick={closeForm} type="button" content="Canel" />
+                <Button floated="right"  as={Link} to='/tickets' type="button" content="Canel" />
             </Form>
         </Segment>
     )

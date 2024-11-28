@@ -1,12 +1,20 @@
 import { Button, Card, Image } from "semantic-ui-react";
 import { useStore } from "../../app/stores/store";
 import LoadingComponent from "../../app/layout/LoadingComponent";
+import { Link, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { observer } from "mobx-react-lite";
 
-export default function TicketDetails() {
+export default observer(function TicketDetails() {
     const {ticketStore} = useStore();
-    const {selectedTicket: ticket, openForm, cancelSelectTicket} = ticketStore;
+    const {selectedTicket: ticket, loadTicket, loadingInitial} = ticketStore;
+    const {id} = useParams();
 
-    if(!ticket) return <LoadingComponent />
+    useEffect(() => {
+        if (id) loadTicket(id);
+    },[id,loadTicket]);
+
+    if(loadingInitial || !ticket) return <LoadingComponent content="Loading Ticket..." />
 
     return (
         <Card fluid>
@@ -27,10 +35,10 @@ export default function TicketDetails() {
             </Card.Content>
             <Card.Content extra>
                 <Button.Group widths={2}>
-                    <Button basic color="blue" onClick={() => openForm(ticket.id)} content="Edit" />
-                    <Button basic color="grey" onClick={cancelSelectTicket} content="Cancel" />
+                    <Button basic as={Link} to={`/manage/${ticket.id}`} color="blue"  content="Edit" />
+                    <Button basic as={Link} to={'/tickets'} color="grey" content="Cancel" />
                 </Button.Group>
             </Card.Content>
         </Card>
     )
-}
+})
