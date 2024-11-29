@@ -1,0 +1,99 @@
+.roadmap-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.line {
+  position: absolute;
+  width: 2px;
+  height: 100%;
+  background-color: #387478; /* Color of the central line (same as text color) */
+  z-index: 0;
+}
+
+.stations-list {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-left: 50px;
+}
+
+.station-item {
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  padding-left: 50px;
+  padding-right: 50px;
+  margin-bottom: 40px; /* Increased margin for spacing */
+}
+
+.station-item.left {
+  left: -120px; /* Position left stations to the left of the line */
+  margin-right: 20px; /* Add margin to the right of left-side stations */
+}
+
+.station-item.right {
+  left: 140px; /* Add margin to the right-side stations */
+}
+
+.station-item .dot {
+  position: absolute;
+  left: 50%; /* Align to the central line */
+  transform: translateX(-50%); /* Center horizontally */
+  width: 12px; /* Size of the dot */
+  height: 12px; /* Size of the dot */
+  background-color: #387478; /* Dot color same as the line color */
+  border-radius: 50%; /* Makes the dot circular */
+  z-index: 2; /* Ensure the dot stays above the line */
+}
+
+.station-item .left-icon,
+.station-item .right-icon {
+  position: absolute; /* Position the icon */
+  left: 50%; /* Align to the central line */
+  transform: translateX(-50%); /* Center horizontally */
+  top: 50%; /* Align vertically */
+  transform: translate(-50%, -50%); /* Ensure the icon is centered */
+  z-index: 3; /* Ensure the icon stays above the dot */
+}
+
+.station-item .header {
+  color: #4169C8; /* Text color same as the line color */
+} 
+
+.station-item {
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  padding-left: 50px;
+  padding-right: 50px;
+  margin-bottom: 40px; /* Increased margin for spacing */
+  max-width: 200px; /* Restrict the width of the station content */
+  word-wrap: break-word; /* Allow wrapping of text to the next line */
+}
+
+.station-item.left {
+  left: -120px; /* Position left stations to the left of the line */
+  margin-right: 20px; /* Add margin to the right of left-side stations */
+  text-align: left; /* Align text to the right */
+}
+
+.station-item.right {
+  left: 140px; /* Add margin to the right-side stations */
+  text-align: left; /* Align text to the left */
+}
+
+.station-item .header {
+  color: linear-gradient(135deg, #387478 0%, #68D7DE 100%); /* Text color same as the line color */
+  font-weight: bold;
+}
+
+.station-item .description {
+  color: #333; /* Add a contrasting color for the description */
+  font-size: 0.9rem; /* Slightly reduce font size for description */
+}
+

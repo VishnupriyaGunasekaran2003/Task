@@ -1,0 +1,87 @@
+.sidebar {
+    position: relative;
+    width: 250px; /* Adjust width */
+    padding: 20px;
+    background-color: #f4f4f4; /* Light background */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .sidebar-item {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  
+  .sidebar-item img {
+    width: 100%; /* Full width */
+    height: auto;
+    border-radius: 6px;
+  }
+  
+  .sidebar-item .label {
+    position: absolute;
+    bottom: 10px; /* Positioned at the bottom of the image */
+    right: 10px; /* Slight inset */
+    background-color: teal;
+    color: white;
+    font-size: 0.9rem;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 4px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Introductory Image Section */
+.intro-section {
+    position: relative;
+    width: 100%;
+    height: 300px; /* Adjust the height as needed */
+    overflow: hidden;
+  }
+  
+  .intro-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image covers the section area */
+  }
+  
+  .quote-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the text */
+    text-align: center;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .quote-text {
+    font-size: 24px;
+    font-style: italic;
+    line-height: 1.5;
+  }
+  
+
+/* Custom CSS for attaching the buttons */
+.nav-tabs-attached .nav-link {
+    border-radius: 0;
+    border-right: 1px solid #ddd;  /* Create a separation between buttons */
+    background-color: #999;  /* Inactive tab background color */
+    color: white;  /* Inactive tab text color */
+  }
+  
+  .nav-tabs-attached .nav-link:last-child {
+    border-right: none;  /* Remove the border from the last button */
+  }
+  
+  .nav-tabs-attached .nav-link.active {
+    background-color: #387478;  /* Active tab background */
+    color: white;  /* Active tab text color */
+    border-color: #387478;  /* Active tab border color */
+  }
+  
+  

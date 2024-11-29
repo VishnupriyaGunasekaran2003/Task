@@ -11,6 +11,7 @@ export default function NavBar() {
                 <img src='/assets/logo.png' alt='logo' style={{marginRight: '10px'}} />
                 MetroEase
             </Menu.Item>
+            <Menu.Item as={NavLink} to='/station' name="Station Information" />
             <Menu.Item as={NavLink} to='/tickets' name="Tickets" />
             <Menu.Item>
                 <Button positive as={NavLink} to='/createTicket' content="+ New Ticket" />
